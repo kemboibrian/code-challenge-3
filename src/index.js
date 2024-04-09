@@ -1,5 +1,6 @@
 //write your code here
 
+
 document.addEventListener("DOMContentLoaded", function() {
     const baseUrl = "http://localhost:3000";
 
@@ -12,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.error("Error fetching movie details:", error));
     }
-})
+
 
     // Function to update the first movie details when the page loads
     
@@ -102,4 +103,60 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .catch(error => console.error("Error buying ticket:", error));
 }
+ // Function to persist ticket sale
+ function persistTicketSale(movieId, numberOfTickets) {
+    fetch(`${baseUrl}/tickets`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            film_id: movieId,
+            number_of_tickets: numberOfTickets
+        })
+    })
+        .then(response => response.json())
+        .then(ticket => console.log("Ticket purchased:", ticket))
+        .catch(error => console.error("Error persisting ticket sale:", error));
+}
 
+ // Function to populate the movies menu with delete functionality
+ function populateMoviesMenu(movies) {
+    const filmsList = document.getElementById("films");
+    filmsList.innerHTML = ""; // Clear existing list
+
+    movies.forEach(movie => {
+        const listItem = document.createElement("li");
+        listItem.textContent = movie.title;
+        listItem.className = "film item";
+
+        // Adding a delete button
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.onclick = () => deleteMovie(movie.id, listItem);
+        listItem.appendChild(deleteButton);
+
+        listItem.addEventListener("click", () => fetchMovieDetails(movie.id));
+        filmsList.appendChild(listItem);
+    });
+}
+
+// Function to delete a movie
+function deleteMovie(movieId, listItem) {
+    fetch(`${baseUrl}/films/${movieId}`, {
+        method: "DELETE"
+    })
+        .then(response => {
+            if (response.ok) {
+                listItem.remove();
+                console.log("Movie deleted successfully.");
+            } else {
+                throw new Error("Failed to delete movie.");
+            }
+        })
+        .catch(error => console.error("Error deleting movie:", error));
+}
+
+// Call function to fetch all movies when the DOM content is loaded
+fetchAllMovies();
+});
