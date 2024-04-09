@@ -54,19 +54,34 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    
+    // Function to populate film/movie menu
+    const populateFilmMenu = () => {
+        const filmsList = document.getElementById('films');
+        filmsList.innerHTML = ''; // Clear existing list items
 
-  
-     // Function to fetch all movies
-
-     function fetchAllMovies() {
-        fetch(`${baseUrl}/films`)
+        fetch(`${baseURL}/films`)
             .then(response => response.json())
-            .then(movies => {
-                populateMoviesMenu(movies);
-                fetchMovieDetails(movies[0].id); // Display details of the first movie by default
-            })
-            .catch(error => console.error("Error fetching movies:", error));
+            .then(films => {
+                films.forEach(film => {
+                    const filmItem = document.createElement('li');
+                    filmItem.textContent = film.title;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.classList.add('delete-button');
+                    deleteButton.addEventListener('click', () => {
+                        deleteFilm(film.id)
+                            .then(() => filmItem.remove());
+                    });
+
+                    filmItem.appendChild(deleteButton);
+                    filmItem.classList.add('film', 'item');
+                    filmItem.addEventListener('click', () => updateFilmDetails(film.id));
+                    filmsList.appendChild(filmItem);
+                });
+            });
+    };
+
     }
  // Function to buy a ticket
 
