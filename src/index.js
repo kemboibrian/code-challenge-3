@@ -75,4 +75,31 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.error("Error fetching movies:", error));
     }
+ // Function to buy a ticket
+
+ function buyTicket(movieId, availableTickets) {
+    const numberOfTickets = 1; // For simplicity, buying one ticket at a time
+    if (availableTickets === 0) {
+        alert("This movie is sold out.");
+        return;
+    }
+
+    const newAvailableTickets = availableTickets - numberOfTickets;
+
+    fetch(`${baseUrl}/films/${movieId}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            tickets_sold: newAvailableTickets
+        })
+    })
+        .then(response => response.json())
+        .then(updatedMovie => {
+            updateMovieDetails(updatedMovie);
+            persistTicketSale(movieId, numberOfTickets);
+        })
+        .catch(error => console.error("Error buying ticket:", error));
+}
 
