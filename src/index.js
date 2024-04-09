@@ -33,7 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('film-info').textContent = filmData.description;
                 document.getElementById('showtime').textContent = filmData.showtime;
                 document.getElementById('poster').src = filmData.poster;
-
+                
+// function to buy ticket
                 ticketNumSpan.textContent = remainingTickets;
                 if (remainingTickets <= 0) {
                     buyTicketButton.textContent = 'Sold Out';
@@ -69,7 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const deleteButton = document.createElement('button');
                     deleteButton.textContent = 'Delete';
                     deleteButton.classList.add('delete-button');
-                    deleteButton.addEventListener('click', () => {
+                    //add an event listener to the delete button fuction
+                    deleteButton.addEventListener('click', () => { 
                         deleteFilm(film.id)
                             .then(() => filmItem.remove());
                     });
@@ -83,87 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     }
- // Function to buy a ticket
+// Function to make DELETE request to delete a film/movie
+    const deleteFilm = (id) => {
+        return fetch(`${baseURL}/films/${id}`, {
+            method: 'DELETE'
+        });
+    };
 
- function buyTicket(movieId, availableTickets) {
-    const numberOfTickets = 1; // For simplicity, buying one ticket at a time
-    if (availableTickets === 0) {
-        alert("This movie is sold out.");
-        return;
-    }
-
-    const newAvailableTickets = availableTickets - numberOfTickets;
-
-    fetch(`${baseUrl}/films/${movieId}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            tickets_sold: newAvailableTickets
-        })
-    })
-        .then(response => response.json())
-        .then(updatedMovie => {
-            updateMovieDetails(updatedMovie);
-            persistTicketSale(movieId, numberOfTickets);
-        })
-        .catch(error => console.error("Error buying ticket:", error));
-}
- // Function to persist ticket sale
- function persistTicketSale(movieId, numberOfTickets) {
-    fetch(`${baseUrl}/tickets`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            film_id: movieId,
-            number_of_tickets: numberOfTickets
-        })
-    })
-        .then(response => response.json())
-        .then(ticket => console.log("Ticket purchased:", ticket))
-        .catch(error => console.error("Error persisting ticket sale:", error));
-}
-
- // Function to populate the movies menu with delete functionality
- function populateMoviesMenu(movies) {
-    const filmsList = document.getElementById("films");
-    filmsList.innerHTML = ""; // Clear existing list
-
-    movies.forEach(movie => {
-        const listItem = document.createElement("li");
-        listItem.textContent = movie.title;
-        listItem.className = "film item";
-
-        // Adding a delete button
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
-        deleteButton.onclick = () => deleteMovie(movie.id, listItem);
-        listItem.appendChild(deleteButton);
-
-        listItem.addEventListener("click", () => fetchMovieDetails(movie.id));
-        filmsList.appendChild(listItem);
-    });
-}
-
-// Function to delete a movie
-function deleteMovie(movieId, listItem) {
-    fetch(`${baseUrl}/films/${movieId}`, {
-        method: "DELETE"
-    })
-        .then(response => {
-            if (response.ok) {
-                listItem.remove();
-                console.log("Movie deleted successfully.");
-            } else {
-                throw new Error("Failed to delete movie.");
-            }
-        })
-        .catch(error => console.error("Error deleting movie:", error));
-}
-
-// Call function to fetch all movies when the DOM content is loaded
-fetchAllMovies();
+    // startup that loads the movie contents
+    populateFilmMenu();
+    updateFilmDetails(1); // Show details of the first film when page loads
 });
