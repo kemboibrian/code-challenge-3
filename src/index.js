@@ -23,4 +23,4 @@ document.addEventListener('DOMContentLoaded', () => {
     ticketNum.textContent = `${movie.capacity - movie.tickets_sold} remaining`;
   }
   
-fetchMovies();
+updateMovie();
