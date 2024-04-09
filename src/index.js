@@ -1,4 +1,3 @@
-// Your code here
 document.addEventListener('DOMContentLoaded', () => {
     const baseURL = 'http://localhost:3000';
 
@@ -6,8 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchFilmData = (id) => {
         return fetch(`${baseURL}/films/${id}`)
             .then(response => response.json());
-        
-    };
+    }
 
     // Function to make PATCH request to update tickets_sold
     const updateTicketsSold = (id, ticketsSold) => {
@@ -18,13 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify({ tickets_sold: ticketsSold })
         });
-    };
+    }
+
     
- // Function to update the UI with the first film/movie details
+
+    // Function to update the UI with film details
     const updateFilmDetails = (filmId) => {
         fetchFilmData(filmId)
             .then(filmData => {
-                const remainingTickets = filmData.capacity - filmData.tickets_sold; // this calculates the remaining tickets
+                const remainingTickets = filmData.capacity - filmData.tickets_sold;
                 const buyTicketButton = document.getElementById('buy-ticket');
                 const ticketNumSpan = document.getElementById('ticket-num');
 
@@ -33,8 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('film-info').textContent = filmData.description;
                 document.getElementById('showtime').textContent = filmData.showtime;
                 document.getElementById('poster').src = filmData.poster;
-                
-// function to buy ticket
+
                 ticketNumSpan.textContent = remainingTickets;
                 if (remainingTickets <= 0) {
                     buyTicketButton.textContent = 'Sold Out';
@@ -53,9 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             });
-    };
+    }
 
-    // Function to populate film/movie menu
+    // Function to populate film menu
     const populateFilmMenu = () => {
         const filmsList = document.getElementById('films');
         filmsList.innerHTML = ''; // Clear existing list items
@@ -70,8 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const deleteButton = document.createElement('button');
                     deleteButton.textContent = 'Delete';
                     deleteButton.classList.add('delete-button');
-                    //add an event listener to the delete button fuction
-                    deleteButton.addEventListener('click', () => { 
+                    deleteButton.addEventListener('click', () => {
                         deleteFilm(film.id)
                             .then(() => filmItem.remove());
                     });
@@ -80,19 +78,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     filmItem.classList.add('film', 'item');
                     filmItem.addEventListener('click', () => updateFilmDetails(film.id));
                     filmsList.appendChild(filmItem);
-                });
-            });
-    };
-
+                })
+            })
     }
-// Function to make DELETE request to delete a film/movie
+
+    // Function to make DELETE request to delete a film
     const deleteFilm = (id) => {
         return fetch(`${baseURL}/films/${id}`, {
             method: 'DELETE'
         });
-    };
+    }
 
-    // startup that loads the movie contents
+    // Initial call to display all the films
     populateFilmMenu();
     updateFilmDetails(1); // Show details of the first film when page loads
-});
+})
