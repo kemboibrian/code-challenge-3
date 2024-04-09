@@ -64,3 +64,15 @@ document.addEventListener("DOMContentLoaded", function() {
             buyButton.onclick = () => buyTicket(movie.id, availableTickets);
         }
     }
+     // Function to fetch all movies
+
+     function fetchAllMovies() {
+        fetch(`${baseUrl}/films`)
+            .then(response => response.json())
+            .then(movies => {
+                populateMoviesMenu(movies);
+                fetchMovieDetails(movies[0].id); // Display details of the first movie by default
+            })
+            .catch(error => console.error("Error fetching movies:", error));
+    }
+
