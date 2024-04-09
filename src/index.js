@@ -1,19 +1,26 @@
-//write your code here
+// Your code here
+document.addEventListener('DOMContentLoaded', () => {
+    const baseURL = 'http://localhost:3000';
 
+    // Function to make GET request to retrieve film/movie data
+    const fetchFilmData = (id) => {
+        return fetch(`${baseURL}/films/${id}`)
+            .then(response => response.json());
+        
+    };
 
-document.addEventListener("DOMContentLoaded", function() {
-    const baseUrl = "http://localhost:3000";
+    // Function to make PATCH request to update tickets_sold
+    const updateTicketsSold = (id, ticketsSold) => {
+        return fetch(`${baseURL}/films/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ tickets_sold: ticketsSold })
+        });
+    };
 
-    // Function to fetch movie details by ID
-    function fetchMovieDetails(id) {
-        fetch(`${baseUrl}/films/${id}`)
-            .then(response => response.json())
-            .then(movie => {
-                updateMovieDetails(movie);
-            })
-            .catch(error => console.error("Error fetching movie details:", error));
-    }
-
+    
 
     // Function to update the first movie details when the page loads
     
