@@ -24,7 +24,7 @@ Git
 Git clone git@github.com:kemboibrian/code-challenge-3.git
 
 # Live Link
-[Git](https://github.com/kemboibrian/Independent-Project)
+[Git](https://kemboibrian.github.io/code-challenge-3/)
 
 
 ## Technologies used
