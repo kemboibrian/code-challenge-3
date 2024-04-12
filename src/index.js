@@ -25,33 +25,33 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchFilmData(filmId)
             .then(filmData => {
                 const remainingTickets = filmData.capacity - filmData.tickets_sold;
-                const buyTicketButton = document.getElementById('buy-ticket');
-                const ticketNumSpan = document.getElementById('ticket-num');
+                const buyTicketButton = document.getElementById('buy-ticket')
+                const ticketNumSpan = document.getElementById('ticket-num')
 
                 document.getElementById('title').textContent = filmData.title;
-                document.getElementById('runtime').textContent = `${filmData.runtime} minutes`;
-                document.getElementById('film-info').textContent = filmData.description;
-                document.getElementById('showtime').textContent = filmData.showtime;
-                document.getElementById('poster').src = filmData.poster;
+                document.getElementById('runtime').textContent = `${filmData.runtime} minutes`
+                document.getElementById('film-info').textContent = filmData.description
+                document.getElementById('showtime').textContent = filmData.showtime
+                document.getElementById('poster').src = filmData.poster
 
-                ticketNumSpan.textContent = remainingTickets;
+                ticketNumSpan.textContent = remainingTickets
                 if (remainingTickets <= 0) {
-                    buyTicketButton.textContent = 'Sold Out';
-                    buyTicketButton.disabled = true;
+                    buyTicketButton.textContent = 'Sold Out'
+                    buyTicketButton.disabled = true
                 } else {
                     buyTicketButton.textContent = 'Buy Ticket'
-                    buyTicketButton.disabled = false;
+                    buyTicketButton.disabled = false
                 }
 
                 // Add event listener to buy ticket button
                 buyTicketButton.addEventListener('click', () => {
                     if (remainingTickets > 0) {
-                        const updatedTicketsSold = filmData.tickets_sold + 1;
+                        const updatedTicketsSold = filmData.tickets_sold + 1
                         updateTicketsSold(filmId, updatedTicketsSold)
-                            .then(() => updateFilmDetails(filmId));
+                            .then(() => updateFilmDetails(filmId))
                     }
-                });
-            });
+                })
+            })
     }
 
     // Function to populate film/movie menu
