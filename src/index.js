@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const baseURL = 'http://localhost:3000';
+    const baseURL = 'http://localhost:3000'
 
     // Function to make GET request to retrieve film/movie data
     const fetchFilmData = (id) => {
         return fetch(`${baseURL}/films/${id}`)
-            .then(response => response.json());
+            .then(response => response.json())
     }
 
     // Function to make PATCH request to update tickets_sold
@@ -75,9 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     filmItem.appendChild(deleteButton);
-                    filmItem.classList.add('film', 'item');
-                    filmItem.addEventListener('click', () => updateFilmDetails(film.id));
-                    filmsList.appendChild(filmItem);
+                    filmItem.classList.add('film', 'item')
+                    filmItem.addEventListener('click', () => updateFilmDetails(film.id))
+                    filmsList.appendChild(filmItem)
                 })
             })
     }
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteFilm = (id) => {
         return fetch(`${baseURL}/films/${id}`, {
             method: 'DELETE'
-        });
+        })
     }
 
     // Initial call to display all the films
