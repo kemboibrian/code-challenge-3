@@ -4,8 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to make GET request to retrieve film/movie data
     const fetchFilmData = (id) => {
         return fetch(`${baseURL}/films/${id}`)
-            .then(response => response.json())
-    }
+            .then(response => response.json());
+        
+    };
 
     // Function to make PATCH request to update tickets_sold
     const updateTicketsSold = (id, ticketsSold) => {
@@ -24,9 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateFilmDetails = (filmId) => {
         fetchFilmData(filmId)
             .then(filmData => {
-                const remainingTickets = filmData.capacity - filmData.tickets_sold;
-                const buyTicketButton = document.getElementById('buy-ticket')
-                const ticketNumSpan = document.getElementById('ticket-num')
+                const remainingTickets = filmData.capacity - filmData.tickets_sold; // this calculates the remaining tickets
+                const buyTicketButton = document.getElementById('buy-ticket');
+                const ticketNumSpan = document.getElementById('ticket-num');
 
                 document.getElementById('title').textContent = filmData.title;
                 document.getElementById('runtime').textContent = `${filmData.runtime} minutes`
@@ -50,9 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         updateTicketsSold(filmId, updatedTicketsSold)
                             .then(() => updateFilmDetails(filmId))
                     }
-                })
-            })
-    }
+                });
+            });
+    };
 
     // Function to populate film/movie menu
     const populateFilmMenu = () => {
@@ -75,21 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     filmItem.appendChild(deleteButton);
-                    filmItem.classList.add('film', 'item')
-                    filmItem.addEventListener('click', () => updateFilmDetails(film.id))
-                    filmsList.appendChild(filmItem)
-                })
-            })
-    }
+                    filmItem.classList.add('film', 'item');
+                    filmItem.addEventListener('click', () => updateFilmDetails(film.id));
+                    filmsList.appendChild(filmItem);
+                });
+            });
+    };
 
-    // Function to make DELETE request to delete a film/movie
-    const deleteFilm = (id) => {
-        return fetch(`${baseURL}/films/${id}`, {
-            method: 'DELETE'
-        })
-    }
-
-    // Initial call to display all the films
+    // startup that loads the movie contents
     populateFilmMenu();
     updateFilmDetails(1); // Show details of the first film when page loads
-})
+});
