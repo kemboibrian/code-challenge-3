@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     buyTicketButton.textContent = 'Sold Out';
                     buyTicketButton.disabled = true;
                 } else {
-                    buyTicketButton.textContent = 'Buy Ticket';
+                    buyTicketButton.textContent = 'Buy Ticket'
                     buyTicketButton.disabled = false;
                 }
 
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Function to populate film menu
+    // Function to populate film/movie menu
     const populateFilmMenu = () => {
         const filmsList = document.getElementById('films');
         filmsList.innerHTML = ''; // Clear existing list items
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
     }
 
-    // Function to make DELETE request to delete a film
+    // Function to make DELETE request to delete a film/movie
     const deleteFilm = (id) => {
         return fetch(`${baseURL}/films/${id}`, {
             method: 'DELETE'
