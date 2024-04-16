@@ -24,7 +24,7 @@ Git
 Git clone git@github.com:kemboibrian/code-challenge-3.git
 
 # Live Link
-[Git](https://my-json-server.typicode.com/kemboibrian/code-challenge-3/films)
+[Git](http://localhost:3000)
 
 
 ## Technologies used
