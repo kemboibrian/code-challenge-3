@@ -24,7 +24,7 @@ Git
 Git clone git@github.com:kemboibrian/code-challenge-3.git
 
 # Live Link
-[Git](http://localhost:3000)
+[Git](https://kemboibrian.github.io/code-challenge-3/)
 
 
 ## Technologies used
