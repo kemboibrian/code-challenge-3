@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const baseURL = 'http://localhost:3000'
+    const baseURL = 'https://my-json-server.typicode.com/kemboibrian/code-challenge-3/films'
 
     // Function to make GET request to retrieve film/movie data
     const fetchFilmData = (id) => {
